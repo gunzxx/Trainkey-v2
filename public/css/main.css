@@ -17,7 +17,7 @@ table{
 tbody{
     width: 100%;
 }
-td{
+td, th{
     font-size: 14px;
     border: 1px solid #eee;
 }
@@ -128,17 +128,32 @@ td{
     overflow: scroll;
 }
 .rank td{
-    border: none;
+    /* border: none; */
 }
 .rank-body .no{
     width: 10%;
 }
-.rank-body td{
-    border: none;
+.rank-body > td{
+    display: flex !important;
 }
-.rank-body .img{
+.rank-body .name-colomn{
     display: flex;
     align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+}
+.point-colomn{
+    width: 10%;
+    text-align: center;
+}
+.word-colomn{
+    width: 10%;
+    text-align: center;
+}
+.rank-body img{
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
 }
 .rank td{
     padding: 5px;
@@ -177,6 +192,7 @@ td{
     box-sizing: border-box;
 }
 .teksLabel p{
+    font-weight: bold;
     color: #6C4AB6 !important;
 }
 /* Teks Label */

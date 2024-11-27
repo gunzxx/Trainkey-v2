@@ -1,175 +1,206 @@
-abjad = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+abjad = [
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+    "k",
+    "l",
+    "m",
+    "n",
+    "o",
+    "p",
+    "q",
+    "r",
+    "s",
+    "t",
+    "u",
+    "v",
+    "w",
+    "x",
+    "y",
+    "z",
+];
+
+let showState = "less";
+
+
+function makeRowUser(users) {
+    let row = '';
+    const id = document.getElementById('user_id').textContent;
+    users.forEach((user, key) => {
+        if(user['authed']){
+            row += `
+                <tr style="background-color:green;">
+                    <td class="no">${key+1}</td>
+                    <td class="name-colomn">
+                        <img src="img/pfp/pfp${user['profile']}.png" alt="">
+                        <p class="img">${user['name']}</p>
+                    </td>
+                    <td class="point-colomn">
+                        <p>${user['high_point']}</p>
+                    </td>
+                    <td class="word-colomn">
+                        <p>${user['count_word']}</p>
+                    </td>
+                </tr>
+            `;
+        }else{
+            row += `
+                <tr>
+                    <td class="no">${key + 1}</td>
+                    <td class="name-colomn">
+                        <img src="img/pfp/pfp${user['profile']}.png" alt="">
+                        <p class="img">${user['name']}</p>
+                    </td>
+                    <td class="point-colomn">
+                        <p>${user['high_point']}</p>
+                    </td>
+                    <td class="word-colomn">
+                        <p>${user['count_word']}</p>
+                    </td>
+                </tr>
+            `;
+        }
+    });
+    return row;
+}
+
+
 
 function shuffle(array) {
     let temp = [];
     for (var i = array.length; i > 0; i--) {
         var j = Math.floor(Math.random() * array.length);
-        temp.push(array[j])
+        temp.push(array[j]);
     }
     return temp;
 }
 
-
-function cekSpasi(array){
-    let kata2 = '';
-    let array2 = [];
-    array.forEach((kata)=>{
-        let sample = kata.split("");
-        let dump = [];
-        sample.forEach(e => {
-            if(e==" "){
-                index = sample.indexOf(e);
-                sample.splice(index,sample.length);
-            }
-            else{
-                dump.push(e);
-            }
-        });
-        kata2 = sample.join("");
-        array2.push(kata2);
-    })
-    return array2;
+function cekSpasi(array) {
+    return array.map((kata) =>
+        kata
+            .split("")
+            .map((e) => (e == " " ? "" : e))
+            .join("")
+    );
 }
 
-
-function cekSpasikata(kata){
-    dump=kata.split("");
-    for(i=0;i<dump.length;i++){
-        kata = kata.replace(" ", '')
-    }
-    return kata;
+function cekSpasikata(kata) {
+    return kata
+        .split("")
+        .map((e) => (e == " " ? "" : e))
+        .join("");
 }
 
-
-
-function cekHuruf(array){
-    let kata2 ='';
-    let array2 = [];
-    array.forEach((kata)=>{
-        let sample1 = kata.split("");
-        let dump2 = [];
-        sample1.forEach(e => {
-            if(abjad.includes(e)){
-                dump2.push(e)
-            }
-            else{
-                dump2.push("");
-            }
-        });
-        kata2 = dump2.join("");
-        array2.push(kata2)
-    })
-    return array2;
+function cekHuruf(array) {
+    return array.map((kata) =>
+        kata
+            .split("")
+            .map((e) => (abjad.includes(e.toLowerCase()) ? e : ""))
+            .join("")
+    );
 }
 
-
-function cekHurufkata(katas){
-    let kata2 ='';
-    let sample = katas.split("");
-    let dump2 = [];
-    sample.forEach(e => {
-        if(abjad.includes(e)){
-            dump2.push(e)
-        }
-        else{
-            dump2.push("");
-        }
-    });
-    kata2 = dump2.join("");
-    return kata2;
+function cekHurufkata(kata) {
+    return kata
+        .split("")
+        .map((e) => (abjad.includes(e.toLowerCase()) ? e : ""))
+        .join("");
 }
 
+var countTime = 60;
+var mundur;
 
-
-countTime = 60;
-function countdown(){
+function countdown() {
     countTime = 60;
-    document.getElementById('countdown').textContent = countTime;
-    mundur = setInterval(function(){
+    document.getElementById("countdown").textContent = countTime;
+
+    const keyword = document.getElementById('search').value;
+    mundur = setInterval(function () {
         countTime -= 1;
-        if (countTime <= 0 ){
+        if (countTime <= 0) {
             countTime = 0;
-            userInput.hidden=true;
+            userInput.hidden = true;
+            userInput.blur();
             clearInterval(mundur);
 
             let user_id = document.getElementById("user_id").textContent;
+            
 
             let highpoin = document.getElementById("high_poin").textContent;
-            if(poin>highpoin){
-                let highpoin_text = document.getElementById("high_poin");
+            if (poin > highpoin) {
+                const highpoin_text = document.getElementById("high_poin");
 
                 let rank = document.getElementById("rank_body");
                 // console.log(rank);
-                
+
                 $.ajax({
-                    url: "ajax/update.php",
-                    data:
-                        {
-                            update: 'true',
-                            user_id: user_id,
-                            highpoin: poin
-                        },
-                    dataType: 'json',
-                    method:'post',
-                    success: function(e){
-                        // console.log(e);
-                        highpoin_text.textContent = e.high_poin;
+                    url: "/api/ajax/update",
+                    data: {
+                        highPoint: poin,
+                        countWord: banyakhuruf,
                     },
-                    error:function(e){
-                        console.log(e);
+                    dataType: "json",
+                    method: "post",
+                    success: function (data) {
+                        highpoin_text.textContent = data.high_point;
+                    },
+                    error: function (error) {
+                        console.log(error);
                         console.log(arguments);
                         console.log("ajax1 gagal");
-                    }
+                    },
                 });
 
-                
                 $.ajax({
-                    url: "ajax/rank.php",
-                    method:'post',
-                    data :{
-                        limit:'10'
+                    url: "/api/ajax/rank",
+                    method: "post",
+                    data: {
+                        showState,
+                        keyword,
                     },
-                    success : (e)=>{
-                        rank.innerHTML = e;
+                    success: (data) => {
+                        rank.innerHTML = makeRowUser(data);
                         console.log("ajax2 oke");
                     },
-                    error : (e)=>{
-                        // console.log(e);
+                    error: (error) => {
+                        // console.log(error);
                         console.log("ajax2 gagal");
-                    }
-                })
+                    },
+                });
             }
-            if(poin<=highpoin){
+            if (poin <= highpoin) {
                 console.log("Poin kecil");
             }
         }
-        document.getElementById('countdown').textContent = countTime;
+        document.getElementById("countdown").textContent = countTime;
         // lanjut = false;
-    },1000)
+    }, 1000);
 }
 
-
-function setPoin(){
+function setPoin() {
     let huruf = document.getElementById("huruf");
     let benar = document.getElementById("benar");
     let salah = document.getElementById("salah");
     let wpm = document.getElementById("poin");
 
-    huruf.textContent=banyakhuruf;
-    benar.textContent=poinbenar;
-    salah.textContent=poinsalah;
-    poin = poinbenar-poinsalah;
-    wpm.textContent=poin;
+    huruf.textContent = banyakhuruf;
+    benar.textContent = poinbenar;
+    salah.textContent = poinsalah;
+    poin = poinbenar - poinsalah;
+    wpm.textContent = poin;
 }
 
-
-
-
-
-function showNotify(){
+function showNotify() {
     notify = document.getElementById("notify");
     notify.style.right = 0;
-    setTimeout(()=>{
-        notify.style.right='-500px';
-    },1000)
+    setTimeout(() => {
+        notify.style.right = "-500px";
+    }, 1000);
 }

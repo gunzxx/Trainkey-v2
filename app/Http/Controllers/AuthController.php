@@ -29,7 +29,7 @@ class AuthController extends Controller
         }
         return redirect('/login')->withErrors([
             'message' => 'Email atau password salah',
-        ]);
+        ])->withInput();
     }
 
     public function getRegister()

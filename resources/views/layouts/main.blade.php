@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ isset($title) ? $title." - " : '' }}TrainKey</title>
     <link rel="icon" type="image/x-icon" href="/img/logo.png">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     @yield('css')
 </head>
 

@@ -52,7 +52,7 @@
                 @csrf
                 <div class="form-content email">
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email" autocomplete="off" required="" autofocus
+                    <input type="email" value="{{ old('email') }}" name="email" id="email" autocomplete="off" required="" autofocus
                         placeholder="Masukkan email">
                     @error('email')
                         <p class="error">{{ $message }}</p>

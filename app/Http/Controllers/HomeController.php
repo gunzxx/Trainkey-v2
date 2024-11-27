@@ -8,7 +8,15 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     public function home(){
-        $users = User::all();
+        $users = User::limit(10)->orderBy('high_point', 'DESC')->orderBy('count_word')->orderBy('created_at', 'ASC')->get();
+        
+        $users->map(function($user){
+            if($user->id == auth()->user()->id){
+                $user['authed'] = true;
+            }
+            return $user;
+        });
+
         return view('home.index', [
             'user' => auth()->user(),
             'users' => $users,
