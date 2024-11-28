@@ -1,36 +1,6 @@
-let daftarbtn = document.getElementById("daftar");
-
-let usernameInput = document.getElementById("username");
 let passwordInput1 = document.getElementById("password");
 let passwordInput2 = document.getElementById("password2");
-let varss = [usernameInput,passwordInput1,passwordInput2];
 
-
-varss.forEach((el)=>{
-    el.addEventListener("keydown",(e)=>{
-        if(e.which == 13){
-            let i = 0;
-            daftarEvent();
-        }
-    })
-})
-
-
-let profiles = document.getElementsByName("profile");
-let previewprofile = document.getElementById("preview-profile");
-let profile_img = 1;
-
-
-profiles.forEach(p => {
-    p.addEventListener("click",()=>{
-        imgSrc = "img/pfp/pfp";
-        profile_img = p.value;
-        imgSrc+=profile_img+".png";
-        console.log(imgSrc);
-        previewprofile.src = imgSrc;
-        imgSrc = "img/pfp/pfp";
-    })
-});
 
 
 let showpassword1 = document.getElementById("showpassword1");
@@ -62,3 +32,18 @@ showpassword2.onclick = ()=>{
         show2 = false;
     }
 }
+
+$(document).ready(function(){
+    const current_inv_img = document.querySelector("#preview-inv-img").src;
+    
+    $("#profile").change(async function(event){
+        const [file] = await event.target.files;
+        
+        if(file){
+            document.querySelector("#preview-inv-img").src = URL.createObjectURL(file);
+        }
+        else{
+            document.querySelector("#preview-inv-img").src = current_inv_img;
+        }
+    })
+})

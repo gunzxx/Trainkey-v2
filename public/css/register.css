@@ -162,3 +162,19 @@ input[type="radio"]{
     right: 10px;
 }
 /* End show password */
+
+
+/* Profile image */
+.form-content:has(#preview-inv-img){
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+#preview-inv-img{
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    border-radius: 10px;
+}
+/* End profile image */

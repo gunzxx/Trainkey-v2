@@ -14,17 +14,19 @@ class HomeController extends Controller
             'showState' => 'required',
         ]);
         if($request->showState == 'all'){
-            $users = User::where('name', 'LIKE', '%'.$request->keyword.'%')->orderBy('high_point', 'DESC')->orderBy('count_word')->orderBy('created_at', 'ASC')->get();
+            $users = User::where('name', 'LIKE', '%'.$request->keyword.'%')->with(['media'])->orderBy('high_point', 'DESC')->orderBy('count_word')->orderBy('created_at', 'ASC')->get();
         }else if($request->showState == 'less'){
-            $users = User::where('name', 'LIKE', '%'.$request->keyword.'%')->orderBy('high_point', 'DESC')->orderBy('count_word')->orderBy('created_at', 'ASC')->limit(10)->get();
+            $users = User::where('name', 'LIKE', '%'.$request->keyword.'%')->limit(10)->with(['media'])->orderBy('high_point', 'DESC')->orderBy('count_word')->orderBy('created_at', 'ASC')->get();
         }
 
-        // $users->map(function($user){
-        //     if($user->id == auth()->user()->id){
-        //         $user['authed'] = true;
-        //     }
-        //     return $user;
-        // });
+        $users->map(function($user){
+            if($user->id == auth()->user()->id){
+                $user['authed'] = true;
+            }
+            $user['profile'] = $user->getFirstMediaUrl('profile') == '' ? '/img/profile/default.png' : $user->getFirstMediaUrl('profile');
+            unset($user['media']);
+            return $user;
+        });
 
         return response()->json($users);
     }
@@ -35,17 +37,19 @@ class HomeController extends Controller
             'showState' => 'required',
         ]);
         if($request->showState == 'all'){
-            $users = User::where('name', 'LIKE', '%'.$request->keyword.'%')->orderBy('high_point', 'DESC')->orderBy('count_word')->orderBy('created_at', 'ASC')->limit(10)->get();
+            $users = User::where('name', 'LIKE', '%'.$request->keyword.'%')->limit(10)->with(['media'])->orderBy('high_point', 'DESC')->orderBy('count_word')->orderBy('created_at', 'ASC')->get();
         }else if($request->showState == 'less'){
-            $users = User::where('name', 'LIKE', '%'.$request->keyword.'%')->orderBy('high_point', 'DESC')->orderBy('count_word')->orderBy('created_at', 'ASC')->get();
+            $users = User::where('name', 'LIKE', '%'.$request->keyword.'%')->with(['media'])->orderBy('high_point', 'DESC')->orderBy('count_word')->orderBy('created_at', 'ASC')->get();
         }
         
-        // $users->map(function($user){
-        //     if($user->id == auth()->user()->id){
-        //         $user['authed'] = true;
-        //     }
-        //     return $user;
-        // });
+        $users->map(function($user){
+            if($user->id == auth()->user()->id){
+                $user['authed'] = true;
+            }
+            $user['profile'] = $user->getFirstMediaUrl('profile') == '' ? '/img/profile/default.png' : $user->getFirstMediaUrl('profile');
+            unset($user['media']);
+            return $user;
+        });
 
         return response()->json($users);
     }
@@ -71,17 +75,19 @@ class HomeController extends Controller
             'showState' => 'required',
         ]);
         if($request->showState == 'all'){
-            $users = User::where('name', 'LIKE', '%'.$request->keyword.'%')->orderBy('high_point', 'DESC')->orderBy('count_word')->orderBy('created_at', 'ASC')->get();
+            $users = User::where('name', 'LIKE', '%'.$request->keyword.'%')->with(['media'])->orderBy('high_point', 'DESC')->orderBy('count_word')->orderBy('created_at', 'ASC')->get();
         }else if($request->showState == 'less'){
-            $users = User::where('name', 'LIKE', '%'.$request->keyword.'%')->orderBy('high_point', 'DESC')->orderBy('count_word')->orderBy('created_at', 'ASC')->limit(10)->get();
+            $users = User::where('name', 'LIKE', '%'.$request->keyword.'%')->limit(10)->with(['media'])->orderBy('high_point', 'DESC')->orderBy('count_word')->orderBy('created_at', 'ASC')->get();
         }
         
-        // $users->map(function($user){
-        //     if($user->id == auth()->user()->id){
-        //         $user['authed'] = true;
-        //     }
-        //     return $user;
-        // });
+        $users->map(function($user){
+            if($user->id == auth()->user()->id){
+                $user['authed'] = true;
+            }
+            $user['profile'] = $user->getFirstMediaUrl('profile') == '' ? '/img/profile/default.png' : $user->getFirstMediaUrl('profile');
+            unset($user['media']);
+            return $user;
+        });
 
         return response()->json($users);
     }

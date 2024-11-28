@@ -194,6 +194,8 @@ td, th{
 .teksLabel p{
     font-weight: bold;
     color: #6C4AB6 !important;
+    letter-spacing: 2px;
+    padding: 3px;
 }
 /* Teks Label */
 

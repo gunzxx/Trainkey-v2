@@ -25,7 +25,9 @@ class AuthController extends Controller
         ]);
         // dd($request->all());
         if (auth()->attempt($request->only(['email', 'password']))) {
-            return redirect('/');
+            $token = auth()->guard('api')->attempt($request->only(['email', 'password']));
+            // return redirect('/')->withCookie('tes', $token);
+            return redirect('/')->with('jwt', $token);
         }
         return redirect('/login')->withErrors([
             'message' => 'Email atau password salah',
@@ -46,17 +48,20 @@ class AuthController extends Controller
             'email' => 'required|min:5',
             'password' => 'required|confirmed:password_confirmation',
             'password_confirmation' => 'required',
-            'profile' => 'required',
+            'profile' => 'mimes:webp,jpeg,png,jpg,gif,svg',
         ]);
 
         // dd($request->profile);
         try {
-            User::create([
+            $user = User::create([
                 'name' => $request->username,
                 'email' => $request->email,
-                'profile' => $request->profile,
                 'password' => bcrypt($request->password),
             ]);
+
+            if($request->file('profile')){
+                $user->addMediaFromRequest('profile')->toMediaCollection('profile');
+            }
 
             return redirect('/login')->with([
                 'success' => 'Berhasil mendaftarkan akun',
@@ -67,6 +72,7 @@ class AuthController extends Controller
                     'error' => 'Email sudah digunakan',
                 ])->withInput();
             }
+            dd($th);
             return redirect('/register')->withErrors([
                 'error' => 'Gagal mendaftarkan akun!',
             ]);

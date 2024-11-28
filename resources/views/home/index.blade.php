@@ -23,7 +23,7 @@
             </a>
         </div>
         <div class="profile-container">
-            <img src="img/pfp/pfp{{ $user['profile'] }}.png" alt="" class="profile" id="profile">
+            <img src="{{ auth()->user()->getFirstMediaUrl('profile') == "" ? "/img/profile/default.png" : auth()->user()->getFirstMediaUrl('profile') }}" alt="" class="profile" id="profile">
         </div>
     </nav>
     <!-- End Navbar -->
@@ -140,7 +140,7 @@
                                         <p>{{ $k + 1 }}</p>
                                     </td>
                                     <td class="name-colomn">
-                                        <img src="img/pfp/pfp{{ $v['profile'] }}.png" alt="">
+                                        <img src="{{ $v->getFirstMediaUrl('profile') == "" ? "/img/profile/default.png" : $v->getFirstMediaUrl('profile') }}" alt="">
                                         <p>{{ $v['name'] }}</p>
                                     </td>
                                     <td class="point-colomn">
@@ -157,7 +157,7 @@
                                         <p>{{ $k + 1 }}</p>
                                     </td>
                                     <td class="name-colomn">
-                                        <img src="img/pfp/pfp{{ $v['profile'] }}.png" alt="">
+                                        <img src="{{ $v->getFirstMediaUrl('profile') == "" ? "/img/profile/default.png" : $v->getFirstMediaUrl('profile') }}" alt="">
                                         <p>{{ $v['name'] }}</p>
                                     </td>
                                     <td class="point-colomn">
@@ -180,10 +180,17 @@
     <!-- End BOX -->
 
     <span id="user_id" style="display: none;"><?= auth()->user()->id ?></span>
+
+    @session('jwt')
+        <input type="hidden" id="jwt-token" value="{{ session('jwt') }}">
+        <script>
+            const inputToken = document.getElementById('jwt-token').value;
+            document.cookie = `jwt=${inputToken}`;
+        </script>
+    @endsession
 @endsection
 
 @section('js')
     <script src="js/function.js"></script>
-    <script src="js/data.js"></script>
     <script src="js/main.js"></script>
 @endsection

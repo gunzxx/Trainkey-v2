@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
             'name' => 'gunz',
             'email' => 'admin@storease.id',
             'password' => '123',
-            'profile' => '12',
             'high_point' => '12',
             'count_word' => '12',
         ]);

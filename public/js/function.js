@@ -1,4 +1,18 @@
-abjad = [
+// Fungsi untuk mengambil cookie
+const getCookie = (name) => {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+};
+const token = getCookie('jwt');    
+
+
+const abjad = [
     "a",
     "b",
     "c",
@@ -26,6 +40,7 @@ abjad = [
     "y",
     "z",
 ];
+const abjadstr = abjad.join("");
 
 let showState = "less";
 
@@ -39,7 +54,7 @@ function makeRowUser(users) {
                 <tr style="background-color:green;">
                     <td class="no">${key+1}</td>
                     <td class="name-colomn">
-                        <img src="img/pfp/pfp${user['profile']}.png" alt="">
+                        <img src="${user['profile']}" alt="">
                         <p class="img">${user['name']}</p>
                     </td>
                     <td class="point-colomn">
@@ -55,7 +70,7 @@ function makeRowUser(users) {
                 <tr>
                     <td class="no">${key + 1}</td>
                     <td class="name-colomn">
-                        <img src="img/pfp/pfp${user['profile']}.png" alt="">
+                        <img src="${user['profile']}" alt="">
                         <p class="img">${user['name']}</p>
                     </td>
                     <td class="point-colomn">
@@ -204,3 +219,4 @@ function showNotify() {
         notify.style.right = "-500px";
     }, 1000);
 }
+

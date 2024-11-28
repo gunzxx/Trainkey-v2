@@ -13,7 +13,7 @@ var indexkamus = 0;
 let userInput = document.getElementById("userInput");
 userInput.addEventListener("focus", () => {
     let classkata2 = ".kata" + indexkata;
-    document.querySelector(classkata2).style.backgroundColor = "#8D9EFF";
+    document.querySelector(classkata2).style.backgroundColor = "#A8CD89";
 });
 
 userInput.addEventListener(
@@ -28,12 +28,19 @@ document.getElementById("restart").addEventListener("click", (e) => {
     resetTeks();
 });
 
+
 let jalanLagi;
-function resetTeks() {
+async function resetTeks() {
     basebenar = 0;
     let samplekata = document.querySelectorAll(".kata");
 
-    kamus = shuffle(kamus); /** ganti consume api soon */
+    kamus = await fetch('/api/ajax/data', {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    });
+    kamus = await kamus.json();  
 
     indexkamus = 0;
     for (let i = 0; i < 10; i++) {
@@ -80,10 +87,18 @@ function resetTeks() {
     }
 }
 
-window.addEventListener("load", () => {
+window.addEventListener("load", async () => {
     let sample = document.querySelectorAll(".kata");
     
     indexkamus = 0;
+    kamus = await fetch('/api/ajax/data', {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    });
+    kamus = await kamus.json();    
+    
     for (let i = 0; i < 10; i++) {
         sample[i].textContent = kamus[indexkamus].toLowerCase();
         indexkamus++;
@@ -222,15 +237,22 @@ profileimg.addEventListener("click", () => {
     }
 });
 
+
 let logoutbtn = document.getElementById("logoutbtn");
 logoutbtn.addEventListener("click", () => {
-    let lanjut = confirm();
-    if (lanjut == true) {
-        window.location = "/logout";
-    } else if (lanjut == false) {
-        // alert("GAGAL");
-    }
+    Swal.fire({
+        text: 'Logout?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: 'red',
+        cancelButtonColor: 'purple',
+    }).then(res => {
+        if(res.isConfirmed){
+            window.location.href = '/logout';
+        }
+    });
 });
+
 
 let rank_body = document.getElementById("rank_body");
 let showall = document.getElementById("showall");
@@ -247,9 +269,19 @@ showall.addEventListener("click", () => {
                 showState,
                 keyword,
             },
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
             success: (data) => {
                 showall.textContent = "Show all";
                 rank_body.innerHTML = makeRowUser(data);
+            },
+            error: (e) => {
+                search.blur();
+                Swal.fire({
+                    text: e.responseJSON.message,
+                    icon: 'error',
+                });
             },
         });
         showState = "less";
@@ -261,9 +293,19 @@ showall.addEventListener("click", () => {
                 showState,
                 keyword,
             },
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
             success: (data) => {
                 showall.textContent = "Show less";
                 rank_body.innerHTML = makeRowUser(data);
+            },
+            error: (e) => {
+                search.blur();
+                Swal.fire({
+                    text: e.responseJSON.message,
+                    icon: 'error',
+                });
             },
         });
         showState = "all";
@@ -280,12 +322,19 @@ search.onkeyup = (e) => {
             showState,
             keyword,
         },
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
         success: (data) => {
             console.log(data);
             rank_body.innerHTML = makeRowUser(data);
         },
         error: (e) => {
-            console.log(e);
+            search.blur();
+            Swal.fire({
+                text: e.responseJSON.message,
+                icon: 'error',
+            });
         },
     });
 };
