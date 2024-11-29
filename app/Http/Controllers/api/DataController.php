@@ -15,6 +15,11 @@ class DataController extends Controller
             return $kata['kata'];
         }, $katas->toArray());
         
-        return response()->json($katas);
+        if(count($katas) > 10){
+            return response()->json($katas);
+        }
+        return  response()->json([
+            'message' => 'empty data'
+        ], 400);
     }
 }

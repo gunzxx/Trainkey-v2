@@ -97,10 +97,11 @@ window.addEventListener("load", async () => {
             Authorization: `Bearer ${token}`,
         }
     });
+    
     kamus = await kamus.json();    
     
     for (let i = 0; i < 10; i++) {
-        sample[i].textContent = kamus[indexkamus].toLowerCase();
+        sample[i].textContent = cekSpasikata(kamus[indexkamus].toLowerCase());
         indexkamus++;
     }
 });

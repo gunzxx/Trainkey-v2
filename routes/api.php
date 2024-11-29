@@ -21,8 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
+Route::get('/ajax/data', [DataController::class, 'data']);
 Route::middleware(['auth-api'])->group(function(){
-    Route::get('/ajax/data', [DataController::class, 'data']);
     Route::post('/ajax/search', [HomeController::class, 'search']);
     Route::post('/ajax/showall', [HomeController::class, 'showall']);
     Route::post('/ajax/update', [HomeController::class, 'update']);
