@@ -161,6 +161,9 @@ function countdown() {
                         highPoint: poin,
                         countWord: banyakhuruf,
                     },
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                     dataType: "json",
                     method: "post",
                     success: function (data) {
@@ -179,6 +182,9 @@ function countdown() {
                     data: {
                         showState,
                         keyword,
+                    },
+                    headers: {
+                        Authorization: `Bearer ${token}`,
                     },
                     success: (data) => {
                         rank.innerHTML = makeRowUser(data);
