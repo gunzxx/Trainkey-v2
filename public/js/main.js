@@ -44,7 +44,7 @@ async function resetTeks() {
 
     indexkamus = 0;
     for (let i = 0; i < 10; i++) {
-        samplekata[i].textContent = kamus[indexkamus].toLowerCase();
+        samplekata[i].textContent = cekSpasikata(kamus[indexkamus].toLowerCase());
         indexkamus++;
     }
 
@@ -141,7 +141,7 @@ userInput.addEventListener("keydown", (e) => {
         if (indexkata >= sample.length - 1) {
             // ajaxTeks();
             for (let i = 0; i < 10; i++) {
-                sample[i].textContent = kamus[indexkamus].toLowerCase();
+                sample[i].textContent = cekSpasikata(kamus[indexkamus].toLowerCase());
                 sample[i].style.backgroundColor = "transparent";
                 indexkamus++;
             }
