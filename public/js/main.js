@@ -2,7 +2,6 @@ let indexkata = 0;
 let indexhuruf = 0;
 let basebenar = 0;
 
-
 let banyakhuruf = 0;
 let poinbenar = 0;
 let poinsalah = 0;
@@ -28,23 +27,24 @@ document.getElementById("restart").addEventListener("click", (e) => {
     resetTeks();
 });
 
-
 let jalanLagi;
 async function resetTeks() {
     basebenar = 0;
     let samplekata = document.querySelectorAll(".kata");
 
-    kamus = await fetch('/api/ajax/data', {
-        method: 'GET',
+    kamus = await fetch("/api/ajax/data", {
+        method: "GET",
         headers: {
             Authorization: `Bearer ${token}`,
-        }
+        },
     });
-    kamus = await kamus.json();  
+    kamus = await kamus.json();
 
     indexkamus = 0;
     for (let i = 0; i < 10; i++) {
-        samplekata[i].textContent = cekSpasikata(kamus[indexkamus].toLowerCase());
+        samplekata[i].textContent = cekSpasikata(
+            kamus[indexkamus].toLowerCase()
+        );
         indexkamus++;
     }
 
@@ -52,9 +52,9 @@ async function resetTeks() {
         subkata.style.backgroundColor = "transparent";
     });
 
-    if(!mundur){
+    if (!mundur) {
         return true;
-    } else{
+    } else {
         clearInterval(mundur);
     }
 
@@ -88,21 +88,37 @@ async function resetTeks() {
 }
 
 window.addEventListener("load", async () => {
-    let sample = document.querySelectorAll(".kata");
+    try {
+        let sample = document.querySelectorAll(".kata");
     
-    indexkamus = 0;
-    kamus = await fetch('/api/ajax/data', {
-        method: 'GET',
-        headers: {
-            Authorization: `Bearer ${token}`,
+        indexkamus = 0;
+        const result = await fetch("/api/ajax/data", {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (result.status == 200) {
+            userInput.removeAttribute("disabled");
+            userInput.placeholder = "Ketik disini...";
         }
-    });
+        if (result.status == 400) {
+            const errorText = await res.json();
+            Swal.fire({
+                text: errorText.message,
+            });
+        }
     
-    kamus = await kamus.json();    
+        kamus = await result.json();
     
-    for (let i = 0; i < 10; i++) {
-        sample[i].textContent = cekSpasikata(kamus[indexkamus].toLowerCase());
-        indexkamus++;
+        for (let i = 0; i < 10; i++) {
+            sample[i].textContent = cekSpasikata(kamus[indexkamus].toLowerCase());
+            indexkamus++;
+        }
+    } catch (error) {
+        Swal.fire({
+            text: error.message,
+        })
     }
 });
 
@@ -141,7 +157,9 @@ userInput.addEventListener("keydown", (e) => {
         if (indexkata >= sample.length - 1) {
             // ajaxTeks();
             for (let i = 0; i < 10; i++) {
-                sample[i].textContent = cekSpasikata(kamus[indexkamus].toLowerCase());
+                sample[i].textContent = cekSpasikata(
+                    kamus[indexkamus].toLowerCase()
+                );
                 sample[i].style.backgroundColor = "transparent";
                 indexkamus++;
             }
@@ -164,15 +182,15 @@ userInput.addEventListener("keydown", (e) => {
         result = inputValue + key;
     } else if (key == "Backspace" || e.which == 8) {
         //cek backspace
-        if(kata.substring(0, indexhuruf) == inputValue){
+        if (kata.substring(0, indexhuruf) == inputValue) {
             poinbenar -= 1;
         }
-        
+
         key = "";
         inputValue = inputValue.slice(0, -1); //menghapus 1 huruf dibelakang
 
         indexhuruf -= 1;
-        
+
         if (poinbenar <= basebenar) {
             poinbenar = basebenar;
         }
@@ -196,7 +214,8 @@ userInput.addEventListener("keydown", (e) => {
                 poinsalah += 0;
                 banyakhuruf += 1;
                 setPoin();
-                document.querySelector(classkata).style.backgroundColor = "#4ee74e";
+                document.querySelector(classkata).style.backgroundColor =
+                    "#4ee74e";
             } else if (result != kata.substring(0, indexhuruf)) {
                 poinbenar += 0;
                 poinsalah += 1;
@@ -207,18 +226,12 @@ userInput.addEventListener("keydown", (e) => {
         } else if (indexhuruf >= kata.length) {
             e.preventDefault();
         }
-    }
-    else {
+    } else {
         //cek tombol lain
         e.preventDefault();
         key = "";
         result = inputValue + key;
     }
-});
-
-window.addEventListener("load", function () {
-    userInput.removeAttribute("disabled");
-    userInput.placeholder = "Ketik disini...";
 });
 
 let profileimg = document.getElementById("profile");
@@ -238,22 +251,20 @@ profileimg.addEventListener("click", () => {
     }
 });
 
-
 let logoutbtn = document.getElementById("logoutbtn");
 logoutbtn.addEventListener("click", () => {
     Swal.fire({
-        text: 'Logout?',
-        icon: 'question',
+        text: "Logout?",
+        icon: "question",
         showCancelButton: true,
-        confirmButtonColor: 'red',
-        cancelButtonColor: 'purple',
-    }).then(res => {
-        if(res.isConfirmed){
-            window.location.href = '/logout';
+        confirmButtonColor: "red",
+        cancelButtonColor: "purple",
+    }).then((res) => {
+        if (res.isConfirmed) {
+            window.location.href = "/logout";
         }
     });
 });
-
 
 let rank_body = document.getElementById("rank_body");
 let showall = document.getElementById("showall");
@@ -281,7 +292,7 @@ showall.addEventListener("click", () => {
                 search.blur();
                 Swal.fire({
                     text: e.responseJSON.message,
-                    icon: 'error',
+                    icon: "error",
                 });
             },
         });
@@ -305,7 +316,7 @@ showall.addEventListener("click", () => {
                 search.blur();
                 Swal.fire({
                     text: e.responseJSON.message,
-                    icon: 'error',
+                    icon: "error",
                 });
             },
         });
@@ -332,9 +343,11 @@ search.onkeyup = (e) => {
         },
         error: (e) => {
             search.blur();
+            const errorMsg = e.responseJSON ? e.responseJSON.message : e.statusText;
+            
             Swal.fire({
-                text: e.responseJSON.message,
-                icon: 'error',
+                text: errorMsg,
+                icon: "error",
             });
         },
     });
