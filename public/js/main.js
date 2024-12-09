@@ -90,7 +90,7 @@ async function resetTeks() {
 window.addEventListener("load", async () => {
     try {
         let sample = document.querySelectorAll(".kata");
-    
+
         indexkamus = 0;
         const result = await fetch("/api/ajax/data", {
             method: "GET",
@@ -101,24 +101,42 @@ window.addEventListener("load", async () => {
         if (result.status == 200) {
             userInput.removeAttribute("disabled");
             userInput.placeholder = "Ketik disini...";
+
+            kamus = await result.json();
+
+            for (let i = 0; i < 10; i++) {
+                sample[i].textContent = cekSpasikata(
+                    kamus[indexkamus].toLowerCase()
+                );
+
+                indexkamus++;
+            }
+        }
+        if (result.status == 401) {
+            const errorText = (await result.json()).message;
+            console.log(errorText);
+
+            Swal.fire({
+                text: errorText,
+            }).then(() => {
+                window.location.href = "/logout";
+            });
+            return true;
         }
         if (result.status == 400) {
-            const errorText = await res.json();
+            const errorText = (await result.json()).message;
+            console.log(errorText);
+
             Swal.fire({
-                text: errorText.message,
+                text: errorText,
             });
-        }
-    
-        kamus = await result.json();
-    
-        for (let i = 0; i < 10; i++) {
-            sample[i].textContent = cekSpasikata(kamus[indexkamus].toLowerCase());
-            indexkamus++;
+            sample[3].textContent = "API Kamus bermasalah";
+            return true;
         }
     } catch (error) {
         Swal.fire({
             text: error.message,
-        })
+        });
     }
 });
 
@@ -234,37 +252,6 @@ userInput.addEventListener("keydown", (e) => {
     }
 });
 
-let profileimg = document.getElementById("profile");
-let profilemenu = document.getElementById("profile-menu");
-let tampil = true;
-profileimg.addEventListener("click", () => {
-    if (tampil == true) {
-        profileimg.style.transform = "rotate(360deg)";
-        profilemenu.style.opacity = 1;
-        profilemenu.style.display = "flex";
-        tampil = false;
-    } else if (tampil == false) {
-        profileimg.style.transform = "rotate(0deg)";
-        profilemenu.style.opacity = 0;
-        profilemenu.style.display = "none";
-        tampil = true;
-    }
-});
-
-let logoutbtn = document.getElementById("logoutbtn");
-logoutbtn.addEventListener("click", () => {
-    Swal.fire({
-        text: "Logout?",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonColor: "red",
-        cancelButtonColor: "purple",
-    }).then((res) => {
-        if (res.isConfirmed) {
-            window.location.href = "/logout";
-        }
-    });
-});
 
 let rank_body = document.getElementById("rank_body");
 let showall = document.getElementById("showall");
@@ -343,8 +330,10 @@ search.onkeyup = (e) => {
         },
         error: (e) => {
             search.blur();
-            const errorMsg = e.responseJSON ? e.responseJSON.message : e.statusText;
-            
+            const errorMsg = e.responseJSON
+                ? e.responseJSON.message
+                : e.statusText;
+
             Swal.fire({
                 text: errorMsg,
                 icon: "error",

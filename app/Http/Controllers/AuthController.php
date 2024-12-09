@@ -69,7 +69,7 @@ class AuthController extends Controller
         } catch (\Throwable $th) {
             if($th->errorInfo[0] == 23000){
                 return redirect('/register')->withErrors([
-                    'error' => 'Email sudah digunakan',
+                    'email' => 'Email sudah digunakan',
                 ])->withInput();
             }
             dd($th);

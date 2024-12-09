@@ -14,9 +14,39 @@
 </head>
 
 <body>
+    <!-- Navbar -->
+    <nav class="nav">
+        <a href="/" class="brand">
+            <img src="img/logo.png" alt="" width="70px">
+            <h1>Train Key</h1>
+        </a>
+        <div class="sub-nav">
+            <a class="nav-list" href="forum" target="_blank">
+                <p>Forum</p>
+            </a>
+            {{-- <a class="nav-list">
+                <p>Help & Support</p>
+            </a>
+            <a class="nav-list">
+                <p>Documentation</p>
+            </a> --}}
+        </div>
+        <div class="profile-container">
+            <img src="{{ auth()->user()->getFirstMediaUrl('profile') == "" ? "/img/profile/default.png" : auth()->user()->getFirstMediaUrl('profile') }}" alt="" class="profile" id="profile">
+        </div>
+    </nav>
+    <!-- End Navbar -->
+
+    <div class="profile-menu" id="profile-menu">
+        <a class="menu" href="/profile">Edit profile</a>
+        <a class="menu" href="/password">Ganti password</a>
+        <a class="menu" id="logoutBtn" style="cursor: pointer;">Logout</a>
+    </div>
+
     @yield('content')
     
     <script src="/js/jquery.min.js"></script>
+    <script src="/js/script.js"></script>
     @yield('js')
 </body>
 

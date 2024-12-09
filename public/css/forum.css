@@ -1,0 +1,98 @@
+.forum-container {
+    width: 100%;
+    min-height: 100vh;
+    padding: 80px;
+    padding-top: 100px;
+}
+
+.chat-container {
+    width: 100%;
+    height: calc(100vh - 180px);
+    background: white;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    overflow-y: scroll;
+}
+
+.bubble-container {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+}
+.bubble-container.authed {
+    justify-content: end;
+}
+
+.bubble-chat {
+    width: fit-content;
+    background: rgba(224, 255, 255);
+    display: flex;
+    gap: 0;
+    flex-direction: column;
+    align-items: start;
+    padding: 10px 30px 10px 10px;
+    border-radius: 0 10px 10px 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.bubble-container.authed .bubble-chat {
+    border-radius: 10px 0 10px 10px;
+    padding: 10px 10px 10px 30px;
+    align-items: end;
+    background: rgb(0, 255, 195);
+}
+.bubble-chat * {
+    color: #000;
+}
+
+.header-chat {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: start;
+    padding: 0;
+}
+.bubble-container.authed .header-chat {
+    justify-content: end;
+}
+.header-chat > img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    background: greenyellow;
+    border-radius: 50%;
+}
+
+.bubble-chat > small {
+    font-size: 10px;
+}
+
+/* Message */
+.message-container {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100vw;
+    padding: 15px 80px;
+    display: flex;
+    gap: 10px;
+}
+.message-container > input {
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px;
+    outline: none;
+    border: 1px solid #000;
+    color: #000;
+}
+.message-container > button {
+    color: white;
+    background: #000;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+/* End Message */

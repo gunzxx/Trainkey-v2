@@ -13,6 +13,23 @@
 </head>
 
 <body>
+    <!-- Navbar -->
+    <div class="nav">
+        <a href="/" class="brand">
+            <img src="/img/logo.png" alt="" width="70px">
+            <h1>Train Key</h1>
+        </a>
+        <div class="sub-nav">
+            {{-- <a class="nav-list">
+                <p>Help & Support</p>
+            </a>
+            <a class="nav-list">
+                <p>Documentation</p>
+            </a> --}}
+        </div>
+    </div>
+    <!-- End Navbar -->
+
     @yield('content')
 
     <script src="/js/script.js"></script>

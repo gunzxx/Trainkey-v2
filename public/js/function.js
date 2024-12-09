@@ -9,7 +9,7 @@ const getCookie = (name) => {
     }
     return null;
 };
-const token = getCookie('jwt');    
+const token = getCookie('jwt');
 
 
 const abjad = [
@@ -47,7 +47,6 @@ let showState = "less";
 
 function makeRowUser(users) {
     let row = '';
-    const id = document.getElementById('user_id').textContent;
     users.forEach((user, key) => {
         if(user['authed']){
             row += `

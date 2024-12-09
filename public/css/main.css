@@ -36,32 +36,6 @@ td, th{
 
 
 
-/* Profile menu */
-.profile-menu{
-    opacity: 0;
-    width: 200px;
-    background-color: #8D72E1;
-    position: fixed;
-    right: 50px;
-    top: 65px;
-    display: none;
-    flex-direction: column;
-    border-radius: 10px 0 10px 10px;
-    transition: 0.1s;
-}
-.menu{
-    padding: 10px;
-}
-.menu:nth-child(2){
-    border-radius: 0 0 10px 10px;
-    background-color: rgb(207, 57, 57);
-}
-#profile{
-    transition: 0.3s;
-}
-/* End Profile menu */
-
-
 
 /* Box Container */
 .box-container{

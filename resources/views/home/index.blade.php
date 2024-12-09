@@ -5,34 +5,14 @@
 @endsection
 
 @section('content')
-    <!-- Navbar -->
-    <nav class="nav">
-        <a href="" class="brand">
-            <img src="img/logo.png" alt="" width="70px">
-            <h1>Train Key</h1>
-        </a>
-        <div class="sub-nav">
-            <a class="nav-list" href="forum" target="_blank">
-                <p>Forum</p>
-            </a>
-            <a class="nav-list">
-                <p>Help & Support</p>
-            </a>
-            <a class="nav-list">
-                <p>Documentation</p>
-            </a>
-        </div>
-        <div class="profile-container">
-            <img src="{{ auth()->user()->getFirstMediaUrl('profile') == "" ? "/img/profile/default.png" : auth()->user()->getFirstMediaUrl('profile') }}" alt="" class="profile" id="profile">
-        </div>
-    </nav>
-    <!-- End Navbar -->
-
-    <div class="profile-menu" id="profile-menu">
-        <a class="menu" href="editprofil">Edit profile</a>
-        <a class="menu" id="logoutbtn">Logout</a>
-    </div>
-
+    @session('jwt')
+        <input type="hidden" id="jwt-token" value="{{ session('jwt') }}">
+        <script>
+            const inputToken = document.getElementById('jwt-token').value;
+            document.cookie = `jwt=${inputToken}`;
+        </script>
+    @endsession
+    
     <!-- BOX -->
     <div class="box-container">
         <!-- Poin -->
@@ -140,7 +120,8 @@
                                         <p>{{ $k + 1 }}</p>
                                     </td>
                                     <td class="name-colomn">
-                                        <img src="{{ $v->getFirstMediaUrl('profile') == "" ? "/img/profile/default.png" : $v->getFirstMediaUrl('profile') }}" alt="">
+                                        <img src="{{ $v->getFirstMediaUrl('profile') == '' ? '/img/profile/default.png' : $v->getFirstMediaUrl('profile') }}"
+                                            alt="">
                                         <p>{{ $v['name'] }}</p>
                                     </td>
                                     <td class="point-colomn">
@@ -157,7 +138,8 @@
                                         <p>{{ $k + 1 }}</p>
                                     </td>
                                     <td class="name-colomn">
-                                        <img src="{{ $v->getFirstMediaUrl('profile') == "" ? "/img/profile/default.png" : $v->getFirstMediaUrl('profile') }}" alt="">
+                                        <img src="{{ $v->getFirstMediaUrl('profile') == '' ? '/img/profile/default.png' : $v->getFirstMediaUrl('profile') }}"
+                                            alt="">
                                         <p>{{ $v['name'] }}</p>
                                     </td>
                                     <td class="point-colomn">
@@ -178,16 +160,6 @@
 
     </div>
     <!-- End BOX -->
-
-    <span id="user_id" style="display: none;"><?= auth()->user()->id ?></span>
-
-    @session('jwt')
-        <input type="hidden" id="jwt-token" value="{{ session('jwt') }}">
-        <script>
-            const inputToken = document.getElementById('jwt-token').value;
-            document.cookie = `jwt=${inputToken}`;
-        </script>
-    @endsession
 @endsection
 
 @section('js')
