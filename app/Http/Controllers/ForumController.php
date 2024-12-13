@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageEvent;
 use App\Models\Chat;
 use DateTime;
 use Illuminate\Http\Request;
@@ -42,10 +43,12 @@ class ForumController extends Controller
             $chat['profile_image'] = $chat->user->getFirstMediaUrl() == "" ? "/img/profile/default.png" : $chat->user->getFirstMediaUrl();
             // $chat['created_at'] = (new DateTime($chat->created_at))->format('Y-m-d H:i:s');
             $chat['username'] = $chat->user->name;
-            $chat['authed'] = $chat->user->id == auth()->user()->id;
+            $chat['user_id'] = $chat->user->id;
             unset($chat['user']);
             return $chat;
         });
+
+        broadcast(new MessageEvent($chats->toArray()));
 
         return response()->json([
             'chats' => $chats,

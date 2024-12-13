@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\DataController;
 use App\Http\Controllers\api\HomeController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Http\Request;
@@ -34,3 +35,5 @@ Route::middleware(['auth-api'])->group(function(){
 
     Route::post('/message', [ForumController::class, 'store']);
 });
+
+Route::post('/emit-event', [EventController::class, 'emit']);

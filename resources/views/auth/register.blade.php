@@ -71,7 +71,7 @@
                 </div>
                 <legend>
                     <a href="/login" class="login">Sudah punya akun?</a>
-                    <a href="/forgot_password" class="forgot">Lupa password?</a>
+                    {{-- <a href="/forgot_password" class="forgot">Lupa password?</a> --}}
                 </legend>
                 <button type="submit" id="daftar">Daftar</button>
             </form>

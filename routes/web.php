@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PasswordController;
@@ -42,3 +43,4 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::get('/send-mail', [PasswordController::class, 'sendMail']);
+Route::get('/test-event', [EventController::class, 'test']);
