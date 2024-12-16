@@ -19,7 +19,6 @@ function makeChat(chats) {
     const user_id = decodePayload.sub;
 
     chats.forEach((chat) => {
-
         if (chat["user_id"] == user_id) {
             chatElement += `
                 <div class="bubble-container authed">
@@ -66,12 +65,12 @@ let sendingMessage = false;
 $("#sendMessage").click(() => {
     const token = getCookie("jwt");
     const msgInput = document.getElementById("message-chat");
-    
+
     const message = msgInput.value;
-    
+
     if (sendingMessage == false) {
         sendingMessage = true;
-        
+
         msgInput.setAttribute("disabled", true);
         msgInput.setAttribute("placeholder", "Mengirim...");
         fetch("/api/message", {
@@ -133,7 +132,7 @@ $("#sendMessage").click(() => {
 $("#message-chat").keydown((event) => {
     const token = getCookie("jwt");
     const message = event.target.value;
-    
+
     if (event.key == "Enter") {
         if (sendingMessage == false) {
             sendingMessage = true;
@@ -202,27 +201,26 @@ $(document).ready(() => {
     scrollToBottom();
 
     Pusher.logToConsole = true;
-    try {
-        var pusher = new Pusher("local", {
-            cluster: "mt1",
-            wsHost: "localhost",
-            wsPort: 6001,
-            forceTLS: false,
-        }).then();
-    
-        var channel = pusher.subscribe("forum");
-        channel.bind("message", function (data) {
-            const chats = data.chats;
-            document.getElementById("chat-container").innerHTML = makeChat(chats);
-            scrollToBottom();
-        });
-    } catch (error) {
-        console.log(error.message);
-        
+    var pusher = new Pusher("local", {
+        cluster: "mt1",
+        wsHost: "localhost",
+        wsPort: 6001,
+        forceTLS: false,
+    });
+
+    pusher.connection.bind("error", (error) => {
+        console.log("Detailed Error:", error);
         Swal.fire({
-            text: `Gagal terhubung ke websocket!`
+            text: `Gagal terhubung ke websocket!`,
         });
-    }
+    });
+
+    var channel = pusher.subscribe("forum");
+    channel.bind("message", function (data) {
+        const chats = data.chats;
+        document.getElementById("chat-container").innerHTML = makeChat(chats);
+        scrollToBottom();
+    });
 });
 
 /** Scroll to bottom */
