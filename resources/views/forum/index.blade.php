@@ -14,7 +14,7 @@
                             <div class="header-chat">
                                 <strong class="sender-chat">{{ $chat->user->name }}</strong>
                                 <img
-                                    src="{{ $chat->user->getFirstMediaUrl() == '' ? '/img/profile/default.png' : $chat->user->getFirstMediaUrl() }}">
+                                    src="{{ $chat->user->getFirstMediaUrl('profile') == '' ? '/img/profile/default.png' : $chat->user->getFirstMediaUrl('profile') }}">
                             </div>
                             <p class="sender-chat">{{ $chat->message }}</p>
                             <small class="time-chat">{{ $chat->created_at }}</small>
@@ -25,7 +25,7 @@
                         <div class="bubble-chat">
                             <div class="header-chat">
                                 <img
-                                    src="{{ $chat->user->getFirstMediaUrl() == '' ? '/img/profile/default.png' : $chat->user->getFirstMediaUrl() }}">
+                                    src="{{ $chat->user->getFirstMediaUrl('profile') == '' ? '/img/profile/default.png' : $chat->user->getFirstMediaUrl('profile') }}">
                                 <strong class="sender-chat">{{ $chat->user->name }}</strong>
                             </div>
                             <p class="sender-chat">{{ $chat->message }}</p>
