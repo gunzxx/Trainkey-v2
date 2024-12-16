@@ -201,19 +201,28 @@ $("#message-chat").keydown((event) => {
 $(document).ready(() => {
     scrollToBottom();
 
-    var pusher = new Pusher("local", {
-        cluster: "mt1",
-        wsHost: "localhost",
-        wsPort: 6001,
-        forceTLS: false,
-    });
-
-    var channel = pusher.subscribe("forum");
-    channel.bind("message", function (data) {
-        const chats = data.chats;
-        document.getElementById("chat-container").innerHTML = makeChat(chats);
-        scrollToBottom();
-    });
+    Pusher.logToConsole = true;
+    try {
+        var pusher = new Pusher("local", {
+            cluster: "mt1",
+            wsHost: "localhost",
+            wsPort: 6001,
+            forceTLS: false,
+        }).then();
+    
+        var channel = pusher.subscribe("forum");
+        channel.bind("message", function (data) {
+            const chats = data.chats;
+            document.getElementById("chat-container").innerHTML = makeChat(chats);
+            scrollToBottom();
+        });
+    } catch (error) {
+        console.log(error.message);
+        
+        Swal.fire({
+            text: `Gagal terhubung ke websocket!`
+        });
+    }
 });
 
 /** Scroll to bottom */
