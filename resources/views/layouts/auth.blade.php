@@ -17,7 +17,7 @@
     <div class="nav">
         <a href="/" class="brand">
             <img src="/img/logo.png" alt="" width="70px">
-            <h1>Train Key</h1>
+            <h1>TrainKey</h1>
         </a>
         <div class="sub-nav">
             {{-- <a class="nav-list">
