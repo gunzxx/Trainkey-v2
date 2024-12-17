@@ -45,10 +45,10 @@
                         <p class="error">{{ $message }}</p>
                     @enderror
                 </div>
-                <div class="form-content remember">
+                {{-- <div class="form-content remember">
                     <input type="checkbox" name="remember" id="remember">
                     <label for="remember">remember me</label>
-                </div>
+                </div> --}}
                 <legend>
                     <a href="/register" class="daftar">Tidak punya akun?</a>
                     {{-- <a href="/forgot_password" class="forgot">Lupa password?</a> --}}

@@ -40,7 +40,7 @@ class ForumController extends Controller
         }])->get();
 
         $chats->map(function($chat){
-            $chat['profile_image'] = $chat->user->getFirstMediaUrl('profile') == "" ? "/img/profile/default.png" : $chat->user->getFirstMediaUrl();
+            $chat['profile_image'] = $chat->user->getFirstMediaUrl('profile') == "" ? "/img/profile/default.png" : $chat->user->getFirstMediaUrl('profile');
             // $chat['created_at'] = (new DateTime($chat->created_at))->format('Y-m-d H:i:s');
             $chat['username'] = $chat->user->name;
             $chat['user_id'] = $chat->user->id;
